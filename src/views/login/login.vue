@@ -16,7 +16,7 @@
       </van-field>
     </van-cell-group>
     <div class="btn-login">
-      <van-button type="default" color="#6db4fb" @click="login" size="large">登录</van-button>
+      <van-button type="default" :loading="loginLoading" color="#6db4fb" @click="login" size="large">登录</van-button>
     </div>
     <!-- <div class="footer">隐私条款</div> -->
   </div>
@@ -35,26 +35,37 @@ export default {
         code: ''
       },
       errPhoneMsg: '',
-      errCodeMsg: ''
+      errCodeMsg: '',
+      loginLoading: false
     }
   },
   methods: {
-    async login () {
+    login () {
       if (!this.test()) {
         // 如果验证不通过终止程序：
         return
       }
 
+      // 修改登录状态为true
+      this.loginLoading = true
+
       // 否则执行后续代码：
-      try {
-        let res = await apiLogin(this.obj)
-        // window.console.log(res)
-        // 将用户信息保存到vuex中：
-        this.$store.commit('setUser', res.data.data)
-        window.console.log(this.$store.state)
-      } catch {
-        window.console.log('登陆失败┭┮﹏┭┮')
-      }
+      window.setTimeout(async () => {
+        try {
+          let res = await apiLogin(this.obj)
+          // window.console.log(res)
+          // 将用户信息保存到vuex中：
+          this.$store.commit('setUser', res.data.data)
+          // window.console.log(this.$store.state)
+          // 登陆成功，跳转到首页：
+          this.$router.push('/home')
+        } catch {
+          this.$toast.fail('登陆失败')
+        }
+
+        // 修改登录状态为false
+        this.loginLoading = false
+      }, 1000)
     },
     // 封装一个验证的方法：
     test () {
