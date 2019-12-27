@@ -2,7 +2,7 @@
   <div class="login-page">
     <van-nav-bar title="登录" />
     <van-cell-group>
-      <van-field v-model="obj.phone" :error-message="errPhoneMsg" placeholder="请输入手机号">
+      <van-field v-model="obj.mobile" :error-message="errPhoneMsg" placeholder="请输入手机号">
         <template slot="left-icon">
           <i class="iconfont icon-shouji"></i>
         </template>
@@ -23,12 +23,15 @@
 </template>
 
 <script>
+// 导入用户请求验证的文件：
+import { apiLogin } from '../../api/user'
+
 export default {
   name: 'login',
   data: function () {
     return {
       obj: {
-        phone: '',
+        mobile: '',
         code: ''
       },
       errPhoneMsg: '',
@@ -43,7 +46,11 @@ export default {
       }
 
       // 否则执行后续代码：
-      window.console.log('恭喜你验证通过')
+      apiLogin(this.obj).then(res => {
+        window.console.log(res)
+      }).catch(() => {
+        window.console.log('登录失败')
+      })
     },
     // 封装一个验证的方法：
     test () {
@@ -52,7 +59,7 @@ export default {
 
       // 定义一个存储登陆状态的数组：
       let testArr = []
-      if (this.obj.phone.trim().length !== 11 || !reg.test(this.obj.phone.trim())) {
+      if (this.obj.mobile.trim().length !== 11 || !reg.test(this.obj.mobile.trim())) {
         this.errPhoneMsg = '手机号格式错误'
         testArr.push(false)
       } else {
