@@ -8,6 +8,9 @@ import store from './store'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
+// 导入样式文件：
+import './style/index.css'
+
 Vue.use(Vant)
 
 Vue.config.productionTip = false
