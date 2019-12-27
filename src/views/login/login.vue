@@ -2,13 +2,13 @@
   <div class="login-page">
     <van-nav-bar title="登录" />
     <van-cell-group>
-      <van-field v-model="obj.phone" placeholder="请输入手机号">
+      <van-field v-model="obj.phone" :error-message="errPhoneMsg" placeholder="请输入手机号">
         <template slot="left-icon">
           <i class="iconfont icon-shouji"></i>
         </template>
       </van-field>
 
-      <van-field v-model="obj.code" placeholder="请输入验证码">
+      <van-field v-model="obj.code" :error-message="errCodeMsg" placeholder="请输入验证码">
         <template slot="left-icon">
           <i class="iconfont icon-icon--"></i>
         </template>
@@ -16,7 +16,7 @@
       </van-field>
     </van-cell-group>
     <div class="btn-login">
-      <van-button type="default" color="#6db4fb" size="large">登录</van-button>
+      <van-button type="default" color="#6db4fb" @click="login" size="large">登录</van-button>
     </div>
     <!-- <div class="footer">隐私条款</div> -->
   </div>
@@ -30,7 +30,46 @@ export default {
       obj: {
         phone: '',
         code: ''
+      },
+      errPhoneMsg: '',
+      errCodeMsg: ''
+    }
+  },
+  methods: {
+    login () {
+      if (!this.test()) {
+        // 如果验证不通过终止程序：
+        return
       }
+
+      // 否则执行后续代码：
+      window.console.log('恭喜你验证通过')
+    },
+    // 封装一个验证的方法：
+    test () {
+      // 定义验证手机号格式的正则表达式：
+      let reg = /^(13[0-9]|14[5|7]|15[0|1|2|3|4|5|6|7|8|9]|18[0|1|2|3|5|6|7|8|9])\d{8}$/
+
+      // 定义一个存储登陆状态的数组：
+      let testArr = []
+      if (this.obj.phone.trim().length !== 11 || !reg.test(this.obj.phone.trim())) {
+        this.errPhoneMsg = '手机号格式错误'
+        testArr.push(false)
+      } else {
+        this.errPhoneMsg = ''
+        testArr.push(true)
+      }
+
+      if (this.obj.code.trim().length !== 6) {
+        this.errCodeMsg = '验证码格式错误'
+        testArr.push(false)
+      } else {
+        this.errCodeMsg = ''
+        testArr.push(true)
+      }
+
+      // 返回登陆信息的验证状态：
+      return !testArr.includes(false)
     }
   }
 }
