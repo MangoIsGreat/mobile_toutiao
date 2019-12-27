@@ -39,18 +39,19 @@ export default {
     }
   },
   methods: {
-    login () {
+    async login () {
       if (!this.test()) {
         // 如果验证不通过终止程序：
         return
       }
 
       // 否则执行后续代码：
-      apiLogin(this.obj).then(res => {
+      try {
+        let res = await apiLogin(this.obj)
         window.console.log(res)
-      }).catch(() => {
-        window.console.log('登录失败')
-      })
+      } catch {
+        window.console.log('登陆失败┭┮﹏┭┮')
+      }
     },
     // 封装一个验证的方法：
     test () {
