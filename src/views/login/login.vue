@@ -48,7 +48,10 @@ export default {
       // 否则执行后续代码：
       try {
         let res = await apiLogin(this.obj)
-        window.console.log(res)
+        // window.console.log(res)
+        // 将用户信息保存到vuex中：
+        this.$store.commit('setUser', res.data.data)
+        window.console.log(this.$store.state)
       } catch {
         window.console.log('登陆失败┭┮﹏┭┮')
       }
