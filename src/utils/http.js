@@ -2,6 +2,8 @@
 
 // 1.导入axios文件：
 import axios from 'axios'
+// 导入vuex文件
+import store from '../store/index'
 
 // 创建一个axios实例：
 const instance = axios.create({
@@ -11,6 +13,10 @@ const instance = axios.create({
 
 // 设置请求和相应拦截器：
 instance.interceptors.request.use(function (config) {
+  let user = store.state.user
+  if (user.token) {
+    config.headers.Authorization = `Bearer ${user.token}`
+  }
   return config
 }, function (error) {
   return Promise.reject(error)
