@@ -7,7 +7,7 @@
         <van-pull-refresh v-model="item.isLoading" @refresh="onRefresh">
           <!-- 数据列表组件： -->
           <van-list v-model="item.loading" :finished="item.finished" finished-text="没有更多了" @load="onLoad">
-            <van-cell v-for="(item, index) in item.list" :key="index" :title="item.aut_name" />
+            <van-cell class="mycell" v-for="(item, index) in item.list" :key="index" :title="item.aut_name" />
             {{active}}
           </van-list>
         </van-pull-refresh>
@@ -62,18 +62,13 @@ export default {
       currentChannelsList.loading = false
     },
     onRefresh () {
-      window.console.log('onRefresh')
-      setTimeout(() => {
-        // 重置数据
-        this.list = []
-        // 手动设置loading为false
-        this.loading = false
-        // 手动设置finished为false
-        this.finished = false
-        // 手动设置isLoading为false
-        this.isLoading = false
-        this.onLoad()
-      }, 1000)
+      let currentChannelsList = this.channelsList[this.active]
+      currentChannelsList.loading = false
+      currentChannelsList.finished = false
+      currentChannelsList.list = []
+      currentChannelsList.isLoading = false
+      // 需要重新调用onLoad方法
+      this.onLoad()
     },
     // 添加额外的属性：
     addOtherProp () {
@@ -139,6 +134,9 @@ export default {
     width: 10%;
     line-height: 44px;
     text-align: center;
+  }
+  .mycell {
+    height: 150px;
   }
 }
 </style>
