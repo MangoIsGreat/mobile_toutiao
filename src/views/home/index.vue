@@ -7,7 +7,8 @@
         <van-pull-refresh v-model="item.isLoading" @refresh="onRefresh">
           <!-- 数据列表组件： -->
           <van-list v-model="item.loading" :finished="item.finished" finished-text="没有更多了" @load="onLoad">
-            <van-cell v-for="(item, index) in item.list" :key="index" :title="item" />
+            <van-cell v-for="(item, index) in item.list" :key="index" :title="item.aut_name" />
+            {{active}}
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -22,6 +23,7 @@
 import { apiGetChannel } from '../../api/channels'
 import { getLocal } from '../../utils/local'
 import store from '../../store/index'
+import { getArticlesList } from '../../api/articles'
 export default {
   name: 'home',
   data () {
@@ -38,40 +40,19 @@ export default {
     }
   },
   methods: {
-    onLoad () {
-      window.console.log('onLoad')
-      // onLoad()事件加载时默认会把loading设置为true
-      // 手动添加20条数据：
-      let arr = [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16,
-        17,
-        18,
-        19
-      ]
-      // 将list[]和arr[]两个数组的数据合并：
-      this.list = [...this.list, ...arr]
-      // 手动设置loading为false
-      this.loading = false
-      if (this.list.length > 100) {
-        // 手动设置finished为true
-        this.finished = true
-      }
+    async onLoad () {
+      // 定义一个变量用来存储当前的channelsList数据：
+      let currentChannelsList = this.channelsList[this.active]
+      // window.console.log(currentChannelsList)
+      let id = currentChannelsList.id
+      // 发送获取新闻列表的请求：
+      let res = await getArticlesList({
+        channelid: id,
+        timestamp: Date.now()
+      })
+
+      window.console.log(res)
+      currentChannelsList.list = res.data.data.results
     },
     onRefresh () {
       window.console.log('onRefresh')
