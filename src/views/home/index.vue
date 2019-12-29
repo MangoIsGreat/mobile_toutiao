@@ -51,8 +51,15 @@ export default {
         timestamp: Date.now()
       })
 
-      window.console.log(res)
-      currentChannelsList.list = res.data.data.results
+      // window.console.log(res)
+      // 解决列表不触底，持续刷新的bug
+      currentChannelsList.list = [...currentChannelsList.list, ...res.data.data.results]
+      // 解决上拉加载更多的bug
+      if (res.data.data.results.length === 0) {
+        currentChannelsList.finished = true
+      }
+      // 手动设置loading为false
+      currentChannelsList.loading = false
     },
     onRefresh () {
       window.console.log('onRefresh')
@@ -71,10 +78,11 @@ export default {
     // 添加额外的属性：
     addOtherProp () {
       this.channelsList.forEach((item) => {
-        item.loading = false
-        item.finished = false
-        item.isLoading = false
-        this.list = []
+        // 使用$set解决首次加载数据不显示的bug
+        this.$set(item, 'loading', false)
+        this.$set(item, 'finished', false)
+        this.$set(item, 'isLoading', false)
+        this.$set(item, 'list', [])
       })
     }
   },
