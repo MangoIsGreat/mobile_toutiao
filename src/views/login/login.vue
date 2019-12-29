@@ -31,8 +31,8 @@ export default {
   data: function () {
     return {
       obj: {
-        mobile: '',
-        code: ''
+        mobile: '13911111111',
+        code: '246810'
       },
       errPhoneMsg: '',
       errCodeMsg: '',

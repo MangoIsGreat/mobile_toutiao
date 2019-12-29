@@ -4,10 +4,10 @@
     <van-tabs v-model="active">
       <van-tab v-for="(item, index) in channelsList" :key="index" :title="item.name">
         <!-- 下拉刷新组件： -->
-        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <van-pull-refresh v-model="item.isLoading" @refresh="onRefresh">
           <!-- 数据列表组件： -->
-          <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-            <van-cell v-for="(item, index) in list" :key="index" :title="item" />
+          <van-list v-model="item.loading" :finished="item.finished" finished-text="没有更多了" @load="onLoad">
+            <van-cell v-for="(item, index) in item.list" :key="index" :title="item" />
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -20,18 +20,19 @@
 <script>
 // 导入封装好频道列表相关api的脚本文件：
 import { apiGetChannel } from '../../api/channels'
-// import { async } from 'q'
+import { getLocal } from '../../utils/local'
+import store from '../../store/index'
 export default {
   name: 'home',
   data () {
     return {
       active: 0,
       // list列表数据：
-      list: [],
-      loading: false,
-      finished: false,
+      // list: [],
+      // loading: false,
+      // finished: false,
       // 下拉刷新数据：
-      isLoading: false,
+      // isLoading: false,
       // 定义接收getChannelsList请求的数据：
       channelsList: []
     }
@@ -85,17 +86,45 @@ export default {
         this.isLoading = false
         this.onLoad()
       }, 1000)
+    },
+    // 添加额外的属性：
+    addOtherProp () {
+      this.channelsList.forEach((item) => {
+        item.loading = false
+        item.finished = false
+        item.isLoading = false
+        this.list = []
+      })
     }
   },
   async created () {
+    let user = store.state.user
     try {
-      // 页面一加载便开始发送axios请求：
-      let res = await apiGetChannel()
-      // 保存请求数据：
-      this.channelsList = res.data.data.channels
+      // 判断用户是否登陆
+      if (user.token) {
+        // 页面一加载便开始发送axios请求：
+        let res = await apiGetChannel()
+        // 保存请求数据：
+        this.channelsList = res.data.data.channels
+      } else {
+        // 说明用户未登陆
+        // 判断是否存在localStorage
+        let channels = getLocal('channels')
+        if (channels) {
+          this.channelsList = channels
+        } else {
+          // 从服务端获取数据
+          let res = await apiGetChannel()
+          this.channelsList = res.data.data.channels
+        }
+      }
     } catch {
-      this.$toast.fail('出错了')
+      this.$toast.fail('出错啦')
     }
+    // 打印channelsList数组的数据：
+    window.console.log(this.channelsList)
+    // 添加额外的属性：
+    this.addOtherProp()
   }
 }
 </script>
