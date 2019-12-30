@@ -13,8 +13,19 @@ function getAllChannel () {
   })
 }
 
+function resetChannelList (channels) {
+  return http({
+    url: '/user/channels',
+    method: 'PUT',
+    data: {
+      channels: channels
+    }
+  })
+}
+
 // 暴露接口函数：
 export {
   apiGetChannel,
-  getAllChannel
+  getAllChannel,
+  resetChannelList
 }

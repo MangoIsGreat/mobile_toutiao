@@ -34,14 +34,15 @@
       </van-cell>
       <!-- 频道推荐列表 -->
       <van-grid>
-            <van-grid-item v-for="(item, index) in allOtherChannels" :key="index" :text="item.name" />
+            <van-grid-item @click="addChannels(item)" v-for="(item, index) in allOtherChannels" :key="index" :text="item.name" />
     </van-grid>
     </van-popup>
   </div>
 </template>
 
 <script>
-import { getAllChannel } from '../api/channels'
+import { getAllChannel, resetChannelList } from '../api/channels'
+import { setLocal } from '../utils/local'
 export default {
   props: ['value', 'channelsList'],
   name: 'mypop',
@@ -69,6 +70,28 @@ export default {
     async getAllChannel () {
       let res = await getAllChannel()
       this.otherChannels = res.data.data.channels
+    },
+    // 添加频道
+    async addChannels (item) {
+      // 添加额外属性
+      this.$set(item, 'loading', false)
+      this.$set(item, 'finished', false)
+      this.$set(item, 'isLoading', false)
+      this.$set(item, 'list', [])
+      this.channelsList.push(item)
+      //   首先要先判断是否已经登录：
+      let user = this.$store.state.user
+      if (user.token) {
+        let channels = this.channelsList.slice(1).map((item, index) => {
+          return {
+            id: item.id,
+            seq: index + 2
+          }
+        })
+        await resetChannelList(channels)
+      } else {
+        setLocal('channels', this.channelsList)
+      }
     }
   },
   created () {

@@ -108,7 +108,7 @@ export default {
       this.$toast.fail('出错啦')
     }
     // 打印channelsList数组的数据：
-    window.console.log(this.channelsList)
+    // window.console.log(this.channelsList)
     // 添加额外的属性：
     this.addOtherProp()
   },
