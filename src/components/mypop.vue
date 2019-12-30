@@ -34,25 +34,45 @@
       </van-cell>
       <!-- 频道推荐列表 -->
       <van-grid>
-            <van-grid-item v-for="(item, index) in 12" :key="index" text="前端" />
+            <van-grid-item v-for="(item, index) in allOtherChannels" :key="index" :text="item.name" />
     </van-grid>
     </van-popup>
   </div>
 </template>
 
 <script>
+import { getAllChannel } from '../api/channels'
 export default {
   props: ['value', 'channelsList'],
   name: 'mypop',
   data () {
     return {
-      displayIcon: false
+      displayIcon: false,
+      otherChannels: []
+    }
+  },
+  computed: {
+    allOtherChannels () {
+      let ids = this.channelsList.map(item => {
+        return item.id
+      })
+
+      return this.otherChannels.filter(item => {
+        return !ids.includes(item.id)
+      })
     }
   },
   methods: {
     close () {
       this.$emit('input', false)
+    },
+    async getAllChannel () {
+      let res = await getAllChannel()
+      this.otherChannels = res.data.data.channels
     }
+  },
+  created () {
+    this.getAllChannel()
   }
 }
 </script>

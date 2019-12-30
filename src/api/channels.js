@@ -7,7 +7,14 @@ function apiGetChannel () {
   })
 }
 
+function getAllChannel () {
+  return http({
+    url: '/channels'
+  })
+}
+
 // 暴露接口函数：
 export {
-  apiGetChannel
+  apiGetChannel,
+  getAllChannel
 }
