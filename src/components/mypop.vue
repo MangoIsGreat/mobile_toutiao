@@ -23,8 +23,8 @@
       </van-cell>
       <!-- 我的频道列表： -->
       <van-grid>
-            <van-grid-item class="mychannel" v-for="(item, index) in 9" name="clear" :key="index">
-                <span class="mychannelList">大数据</span>
+            <van-grid-item class="mychannel" v-for="(item, index) in channelsList" name="clear" :key="index">
+                <span class="mychannelList">{{item.name}}</span>
                 <van-icon v-if="displayIcon" class="mychannelList-icon" name="clear" />
             </van-grid-item>
     </van-grid>
@@ -42,7 +42,7 @@
 
 <script>
 export default {
-  props: ['value'],
+  props: ['value', 'channelsList'],
   name: 'mypop',
   data () {
     return {
