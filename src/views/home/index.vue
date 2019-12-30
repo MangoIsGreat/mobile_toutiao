@@ -13,7 +13,9 @@
         </van-pull-refresh>
       </van-tab>
       <!-- 菜单标签： -->
-      <van-icon class="menu-icon" name="wap-nav" />
+      <van-icon @click="openPopup" class="menu-icon" name="wap-nav" />
+      <!-- 弹出层： -->
+      <mypop :value="show" @input="show=$event"></mypop>
     </van-tabs>
   </div>
 </template>
@@ -24,19 +26,15 @@ import { apiGetChannel } from '../../api/channels'
 import { getLocal } from '../../utils/local'
 import store from '../../store/index'
 import { getArticlesList } from '../../api/articles'
+import mypop from '../../components/mypop'
 export default {
   name: 'home',
   data () {
     return {
       active: 0,
-      // list列表数据：
-      // list: [],
-      // loading: false,
-      // finished: false,
-      // 下拉刷新数据：
-      // isLoading: false,
       // 定义接收getChannelsList请求的数据：
-      channelsList: []
+      channelsList: [],
+      show: false
     }
   },
   methods: {
@@ -79,6 +77,10 @@ export default {
         this.$set(item, 'isLoading', false)
         this.$set(item, 'list', [])
       })
+    },
+    // 打开弹出层：
+    openPopup () {
+      this.show = true
     }
   },
   async created () {
@@ -109,6 +111,9 @@ export default {
     window.console.log(this.channelsList)
     // 添加额外的属性：
     this.addOtherProp()
+  },
+  components: {
+    mypop
   }
 }
 </script>
