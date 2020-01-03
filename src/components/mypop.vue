@@ -23,7 +23,7 @@
       </van-cell>
       <!-- 我的频道列表： -->
       <van-grid>
-            <van-grid-item class="mychannel" v-for="(item, index) in channelsList" name="clear" :key="index">
+            <van-grid-item @click="changeActive(index)" class="mychannel" v-for="(item, index) in channelsList" name="clear" :key="index">
                 <span :class="{active: active === index}" class="mychannelList">{{item.name}}</span>
                 <van-icon @click="delChannel(item)" v-if="displayIcon && index !== 0" class="mychannelList-icon" name="clear" />
             </van-grid-item>
@@ -118,6 +118,10 @@ export default {
         // 用户未登录则保存到本地：
         setLocal('channels', this.channelsList)
       }
+    },
+    // 切换高亮状态：
+    changeActive (index) {
+      this.$emit('cactive', index)
     }
   },
   created () {
