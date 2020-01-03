@@ -25,7 +25,7 @@
       <van-grid>
             <van-grid-item @click="changeActive(index)" class="mychannel" v-for="(item, index) in channelsList" name="clear" :key="index">
                 <span :class="{active: active === index}" class="mychannelList">{{item.name}}</span>
-                <van-icon @click="delChannel(item)" v-if="displayIcon && index !== 0" class="mychannelList-icon" name="clear" />
+                <van-icon @click.stop="delChannel(item)" v-if="displayIcon && index !== 0" class="mychannelList-icon" name="clear" />
             </van-grid-item>
     </van-grid>
       <!-- 频道推荐部分 -->
