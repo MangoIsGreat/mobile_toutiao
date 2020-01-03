@@ -25,7 +25,7 @@
       <van-grid>
             <van-grid-item class="mychannel" v-for="(item, index) in channelsList" name="clear" :key="index">
                 <span class="mychannelList">{{item.name}}</span>
-                <van-icon v-if="displayIcon" class="mychannelList-icon" name="clear" />
+                <van-icon @click="delChannel(item)" v-if="displayIcon && index !== 0" class="mychannelList-icon" name="clear" />
             </van-grid-item>
     </van-grid>
       <!-- 频道推荐部分 -->
@@ -90,6 +90,32 @@ export default {
         })
         await resetChannelList(channels)
       } else {
+        setLocal('channels', this.channelsList)
+      }
+    },
+    // 删除频道：
+    async delChannel (obj) {
+      this.channelsList.forEach((item, index) => {
+        if (item.id === obj.id) {
+          this.channelsList.splice(index, 1)
+        }
+      })
+
+      // 需要判断用户是否已经登陆：
+      let user = this.$store.state.user
+      if (user.token) {
+        // 生成频道数组：
+        let channels = []
+        this.channelsList.slice(1).forEach((item, index) => {
+          channels.push({
+            id: item.id,
+            seq: index + 2
+          })
+        })
+        // 将频道列表数据保存到服务器：
+        await resetChannelList(channels)
+      } else {
+        // 用户未登录则保存到本地：
         setLocal('channels', this.channelsList)
       }
     }
