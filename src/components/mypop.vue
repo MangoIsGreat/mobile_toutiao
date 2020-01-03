@@ -24,7 +24,7 @@
       <!-- 我的频道列表： -->
       <van-grid>
             <van-grid-item class="mychannel" v-for="(item, index) in channelsList" name="clear" :key="index">
-                <span class="mychannelList">{{item.name}}</span>
+                <span :class="{active: active === index}" class="mychannelList">{{item.name}}</span>
                 <van-icon @click="delChannel(item)" v-if="displayIcon && index !== 0" class="mychannelList-icon" name="clear" />
             </van-grid-item>
     </van-grid>
@@ -44,7 +44,7 @@
 import { getAllChannel, resetChannelList } from '../api/channels'
 import { setLocal } from '../utils/local'
 export default {
-  props: ['value', 'channelsList'],
+  props: ['value', 'channelsList', 'active'],
   name: 'mypop',
   data () {
     return {
@@ -146,6 +146,9 @@ export default {
           top: 3px;
           color: #ccc;
       }
+  }
+  .active {
+    color: red!important;
   }
 }
 </style>

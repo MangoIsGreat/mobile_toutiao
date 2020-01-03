@@ -15,7 +15,7 @@
       <!-- 菜单标签： -->
       <van-icon @click="openPopup" class="menu-icon" name="wap-nav" />
       <!-- 弹出层： -->
-      <mypop :channelsList="channelsList" :value="show" @input="show=$event" @click="show=$event"></mypop>
+      <mypop :channelsList="channelsList" :value="show" @input="show=$event" @click="show=$event" :active="active"></mypop>
     </van-tabs>
   </div>
 </template>
