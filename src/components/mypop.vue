@@ -121,7 +121,7 @@ export default {
     },
     // 切换高亮状态：
     changeActive (index) {
-      this.$emit('cactive', index)
+      this.$emit('update:active', index)
     }
   },
   created () {
