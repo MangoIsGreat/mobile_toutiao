@@ -27,7 +27,7 @@
                   <div class="info">
                     <span>{{subitem.aut_name}}</span>
                     <span>{{subitem.comm_count}}评论</span>
-                    <span>{{subitem.pubdate}}</span>
+                    <span>{{subitem.pubdate | timeFormat}}</span>
                   </div>
                   <div class="more">
                     <van-icon class="more-icon" name="cross" />
