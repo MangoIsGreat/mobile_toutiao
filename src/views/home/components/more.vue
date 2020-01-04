@@ -7,11 +7,10 @@
                 <van-icon @click="$emit('input', false)" name="cross" />
               </template>
             </van-cell>
-            <van-cell icon="failure" title="不感兴趣" />
+            <van-cell @click="dislike" icon="failure" title="不感兴趣" />
             <van-cell icon="warning-o" is-link title="反馈垃圾内容" />
             <van-cell icon="delete" title="拉黑作者" />
         </van-cell-group>
-        {{artid}}
     </van-dialog>
   </div>
 </template>
@@ -21,6 +20,14 @@ export default {
   props: ['value', 'artid'],
   data () {
     return {}
+  },
+  methods: {
+    dislike () {
+      // 关闭更多组件弹窗
+      this.$emit('input', false)
+      // 让父组件删除对应的文章
+      this.$emit('delarticle')
+    }
   }
 }
 </script>

@@ -51,7 +51,7 @@
         :active.sync="active"
       />
       <!-- 更多面板组件： -->
-      <more v-model="moreshow" :artid = 'artid' />
+      <more v-model="moreshow" :artid = 'artid' @delarticle="delarticle" />
     </van-tabs>
   </div>
 </template>
@@ -132,6 +132,16 @@ export default {
     openMore (artid) {
       this.moreshow = true
       this.artid = artid
+    },
+    // 删除文章
+    delarticle () {
+      // 首先需要获取当前所在的页面数据
+      let dataList = this.channelsList[this.active].list
+      dataList.forEach((item, index) => {
+        if (item.art_id === this.artid) {
+          dataList.splice(index, 1)
+        }
+      })
     }
   },
   async created () {
