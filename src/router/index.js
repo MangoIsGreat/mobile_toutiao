@@ -4,6 +4,7 @@ import login from '../views/login/login.vue'
 import home from '../views/home/index.vue'
 import layout from '../views/layout/layout.vue'
 import my from '../views/my/my.vue'
+import search from '../views/search/search.vue'
 
 Vue.use(VueRouter)
 
@@ -27,6 +28,10 @@ const routes = [
       {
         path: '/my',
         component: my
+      },
+      {
+        path: '/search',
+        component: search
       }
     ]
   }
