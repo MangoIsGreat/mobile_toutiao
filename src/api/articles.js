@@ -12,6 +12,7 @@ function getArticlesList ({ channelid, timestamp }) {
   })
 }
 
+// 对文章不感兴趣:
 function apiDislike (artid) {
   return http({
     url: '/article/dislikes',
@@ -22,8 +23,22 @@ function apiDislike (artid) {
   })
 }
 
+// 举报文章：
+function apiReport ({ artid, type }) {
+  http({
+    url: '/article/reports',
+    method: 'POST',
+    data: {
+      target: artid,
+      type: type,
+      remark: ''
+    }
+  })
+}
+
 // 暴露接口：
 export {
   getArticlesList,
-  apiDislike
+  apiDislike,
+  apiReport
 }
