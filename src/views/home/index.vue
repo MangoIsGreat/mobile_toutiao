@@ -12,22 +12,22 @@
             finished-text="没有更多了"
             @load="onLoad"
           >
-            <van-cell class="mycell" v-for="(item, index) in item.list" :key="index">
+            <van-cell class="mycell" v-for="(subitem, subindex) in item.list" :key="subindex">
               <template slot="title">
                 <!-- 文章标题 -->
-                <div class="article-title">{{item.title}}</div>
+                <div class="article-title">{{subitem.title}}</div>
                 <!-- 图片列表展示 -->
-                <van-grid :border="false" :column-num="3">
-                  <van-grid-item v-for="(item, index) in 3" :key="index">
-                    <van-image src="https://img.yzcdn.cn/vant/apple-1.jpg" />
+                <van-grid v-if="subitem.cover.type > 0" :border="false" :column-num="3">
+                  <van-grid-item v-for="(imageitem, imageindex) in subitem.cover.images" :key="imageindex">
+                    <van-image :src="imageitem" />
                   </van-grid-item>
                 </van-grid>
                 <!-- 其他信息 -->
                 <div class="other">
                   <div class="info">
-                    <span>作者</span>
-                    <span>评论</span>
-                    <span>时间</span>
+                    <span>{{subitem.aut_name}}</span>
+                    <span>{{subitem.comm_count}}评论</span>
+                    <span>{{subitem.pubdate}}</span>
                   </div>
                   <div class="more">
                     <van-icon class="more-icon" name="cross" />
@@ -89,6 +89,7 @@ export default {
         ...currentChannelsList.list,
         ...res.data.data.results
       ]
+      window.console.log(res.data.data.results)
       // 解决上拉加载更多的bug
       if (res.data.data.results.length === 0) {
         currentChannelsList.finished = true
