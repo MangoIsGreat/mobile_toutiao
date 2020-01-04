@@ -19,7 +19,7 @@
                 <!-- 图片列表展示 -->
                 <van-grid v-if="subitem.cover.type > 0" :border="false" :column-num="3">
                   <van-grid-item v-for="(imageitem, imageindex) in subitem.cover.images" :key="imageindex">
-                    <van-image :src="imageitem" />
+                    <van-image lazy-load :src="imageitem" />
                   </van-grid-item>
                 </van-grid>
                 <!-- 其他信息 -->

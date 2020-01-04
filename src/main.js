@@ -5,13 +5,16 @@ import router from './router'
 import store from './store'
 
 // 注册vant组件
-import Vant from 'vant'
+import Vant, { Lazyload } from 'vant'
 import 'vant/lib/index.css'
 
 // 导入样式文件：
 import './style/index.css'
 
 Vue.use(Vant)
+
+// options 为可选参数，无则不传
+Vue.use(Lazyload)
 
 Vue.config.productionTip = false
 
