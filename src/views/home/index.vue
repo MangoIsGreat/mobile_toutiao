@@ -30,7 +30,7 @@
                     <span>{{subitem.pubdate | timeFormat}}</span>
                   </div>
                   <div class="more">
-                    <van-icon class="more-icon" @click="openMore" name="cross" />
+                    <van-icon class="more-icon" @click="openMore(subitem.art_id)" name="cross" />
                   </div>
                 </div>
               </template>
@@ -51,7 +51,7 @@
         :active.sync="active"
       />
       <!-- 更多面板组件： -->
-      <more v-model="moreshow" />
+      <more v-model="moreshow" :artid = 'artid' />
     </van-tabs>
   </div>
 </template>
@@ -74,7 +74,9 @@ export default {
       channelsList: [],
       show: false,
       // 控制more组件显示与隐藏的数据：
-      moreshow: false
+      moreshow: false,
+      // 要操作的文章的id
+      artid: 0
     }
   },
   methods: {
@@ -127,8 +129,9 @@ export default {
       this.show = true
     },
     // 控制more组件显示与隐藏：
-    openMore () {
+    openMore (artid) {
       this.moreshow = true
+      this.artid = artid
     }
   },
   async created () {
