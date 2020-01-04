@@ -56,7 +56,7 @@ export default {
   },
   methods: {
     onSearch (key) {
-      window.console.log(key)
+      this.$router.push(`/searchResult/${key}`)
     },
     onCancel () {
       window.console.log('oncancel')
