@@ -6,9 +6,35 @@
         <!-- 下拉刷新组件： -->
         <van-pull-refresh v-model="item.isLoading" @refresh="onRefresh">
           <!-- 数据列表组件： -->
-          <van-list v-model="item.loading" :finished="item.finished" finished-text="没有更多了" @load="onLoad">
-            <van-cell class="mycell" v-for="(item, index) in item.list" :key="index" :title="item.aut_name" />
-            {{active}}
+          <van-list
+            v-model="item.loading"
+            :finished="item.finished"
+            finished-text="没有更多了"
+            @load="onLoad"
+          >
+            <van-cell class="mycell" v-for="(item, index) in item.list" :key="index">
+              <template slot="title">
+                <!-- 文章标题 -->
+                <div class="article-title">{{item.title}}</div>
+                <!-- 图片列表展示 -->
+                <van-grid :border="false" :column-num="3">
+                  <van-grid-item v-for="(item, index) in 3" :key="index">
+                    <van-image src="https://img.yzcdn.cn/vant/apple-1.jpg" />
+                  </van-grid-item>
+                </van-grid>
+                <!-- 其他信息 -->
+                <div class="other">
+                  <div class="info">
+                    <span>作者</span>
+                    <span>评论</span>
+                    <span>时间</span>
+                  </div>
+                  <div class="more">
+                    <van-icon class="more-icon" name="cross" />
+                  </div>
+                </div>
+              </template>
+            </van-cell>
           </van-list>
         </van-pull-refresh>
       </van-tab>
@@ -17,7 +43,13 @@
       <!-- 弹出层： -->
       <!-- <mypop :channelsList="channelsList" :value="show" @input="show=$event" @click="show=$event" :active="active" @update:active="active = $event"></mypop> -->
       <!-- 代码改造后： -->
-      <mypop :channelsList="channelsList" :value="show" @input="show=$event" @click="show=$event" :active.sync="active" />
+      <mypop
+        :channelsList="channelsList"
+        :value="show"
+        @input="show=$event"
+        @click="show=$event"
+        :active.sync="active"
+      />
     </van-tabs>
   </div>
 </template>
@@ -53,7 +85,10 @@ export default {
 
       // window.console.log(res)
       // 解决列表不触底，持续刷新的bug
-      currentChannelsList.list = [...currentChannelsList.list, ...res.data.data.results]
+      currentChannelsList.list = [
+        ...currentChannelsList.list,
+        ...res.data.data.results
+      ]
       // 解决上拉加载更多的bug
       if (res.data.data.results.length === 0) {
         currentChannelsList.finished = true
@@ -72,7 +107,7 @@ export default {
     },
     // 添加额外的属性：
     addOtherProp () {
-      this.channelsList.forEach((item) => {
+      this.channelsList.forEach(item => {
         // 使用$set解决首次加载数据不显示的bug
         this.$set(item, 'loading', false)
         this.$set(item, 'finished', false)
@@ -142,8 +177,29 @@ export default {
     line-height: 44px;
     text-align: center;
   }
-  .mycell {
-    height: 150px;
+  .other {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    color: #b4b4b4;
+    font-size: 12px;
+
+    .info {
+      span {
+        margin-right: 10px;
+      }
+    }
+
+    .more {
+      width: 20px;
+      height: 15px;
+      border: 1px solid #ccc;
+      line-height: 15px;
+      text-align: center;
+      .more-icon {
+        line-height: 15px;
+      }
+    }
   }
 }
 </style>
