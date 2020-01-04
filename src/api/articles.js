@@ -12,7 +12,18 @@ function getArticlesList ({ channelid, timestamp }) {
   })
 }
 
+function apiDislike (artid) {
+  return http({
+    url: '/article/dislikes',
+    method: 'POST',
+    data: {
+      target: artid
+    }
+  })
+}
+
 // 暴露接口：
 export {
-  getArticlesList
+  getArticlesList,
+  apiDislike
 }

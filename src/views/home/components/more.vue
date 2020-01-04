@@ -16,17 +16,22 @@
 </template>
 
 <script>
+// 导入不喜欢文章的接口
+import { apiDislike } from '@/api/articles'
 export default {
   props: ['value', 'artid'],
   data () {
     return {}
   },
   methods: {
-    dislike () {
+    async dislike () {
       // 关闭更多组件弹窗
       this.$emit('input', false)
       // 让父组件删除对应的文章
       this.$emit('delarticle')
+
+      let res = await apiDislike(this.artid)
+      window.console.log(res)
     }
   }
 }
