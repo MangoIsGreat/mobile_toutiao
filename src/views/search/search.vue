@@ -7,16 +7,15 @@
       show-action
       background="#3296fa"
       @search="onSearch"
+      @input="think"
     >
       <template slot="action">
         <div class="mycancel">取消</div>
       </template>
     </van-search>
     <!-- 联想区域 -->
-    <van-cell-group v-if="isThink">
-      <van-cell icon="search" title="程序员为什么那么帅" />
-      <van-cell icon="search" title="程序员为什么高薪" />
-      <van-cell icon="search" title="程序员为什么喜欢穿格子衫" />
+    <van-cell-group v-if="thinkList.length > 0">
+      <van-cell @click="onSearch(item)" v-for="(item, index) in thinkList" :key="index" icon="search" :title="item" />
     </van-cell-group>
     <!-- 历史区域 -->
     <van-cell-group v-else>
@@ -45,13 +44,16 @@
 </template>
 
 <script>
+import { apiThink } from '@/api/search.js'
 export default {
   name: 'search',
   data () {
     return {
       value: '',
       //   控制联想区域和历史区域的显示和隐藏
-      isThink: false
+      isThink: false,
+      // 存储联想数据：
+      thinkList: []
     }
   },
   methods: {
@@ -60,6 +62,11 @@ export default {
     },
     onCancel () {
       window.console.log('oncancel')
+    },
+    // 联想功能：
+    async think () {
+      let res = await apiThink(this.value)
+      this.thinkList = res.data.data.options
     }
   }
 }
