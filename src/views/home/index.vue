@@ -30,7 +30,7 @@
                     <span>{{subitem.pubdate | timeFormat}}</span>
                   </div>
                   <div class="more">
-                    <van-icon class="more-icon" name="cross" />
+                    <van-icon class="more-icon" @click="openMore" name="cross" />
                   </div>
                 </div>
               </template>
@@ -50,6 +50,8 @@
         @click="show=$event"
         :active.sync="active"
       />
+      <!-- 更多面板组件： -->
+      <more v-model="moreshow" />
     </van-tabs>
   </div>
 </template>
@@ -61,6 +63,8 @@ import { getLocal } from '../../utils/local'
 import store from '../../store/index'
 import { getArticlesList } from '../../api/articles'
 import mypop from '../../components/mypop'
+// 导入more组件：
+import more from './components/more'
 export default {
   name: 'home',
   data () {
@@ -68,7 +72,9 @@ export default {
       active: 0,
       // 定义接收getChannelsList请求的数据：
       channelsList: [],
-      show: false
+      show: false,
+      // 控制more组件显示与隐藏的数据：
+      moreshow: false
     }
   },
   methods: {
@@ -119,6 +125,10 @@ export default {
     // 打开弹出层：
     openPopup () {
       this.show = true
+    },
+    // 控制more组件显示与隐藏：
+    openMore () {
+      this.moreshow = true
     }
   },
   async created () {
@@ -151,7 +161,8 @@ export default {
     this.addOtherProp()
   },
   components: {
-    mypop
+    mypop,
+    more
   }
 }
 </script>
