@@ -20,6 +20,12 @@ const instance = axios.create({
   }]
 })
 
+// 再次创建一个axios实例，用于状态吗为401时再次发送请求：
+const instance2 = axios.create({
+  // 设置基地址：
+  baseURL: 'http://ttapi.research.itcast.cn/app/v1_0/'
+})
+
 // 设置请求和相应拦截器：
 instance.interceptors.request.use(function (config) {
   let user = store.state.user
@@ -33,7 +39,27 @@ instance.interceptors.request.use(function (config) {
 
 instance.interceptors.response.use(function (response) {
   return response
-}, function (error) {
+}, async function (error) {
+  // window.console.dir(error)
+  // 如果返回登陆状态码为401则执行以下代码：（401代表token错误）
+  if (error.response.status === 401) {
+    let user = store.state.user
+    let refreshtoken = user.refresh_token
+    let res = await instance2({
+      url: '/authorizations',
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${refreshtoken}`
+      }
+    })
+    // 将请求的新的token重新保存到vuex中
+    let newToken = res.data.data.token
+    user.token = newToken
+    store.commit('setUser', user)
+
+    // 重新发送请求：
+    return instance(error.config)
+  }
   return Promise.reject(error)
 })
 
