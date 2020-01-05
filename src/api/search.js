@@ -8,7 +8,15 @@ function apiThink (q) {
   })
 }
 
+// 搜索结果：
+function apiGetSearchResult ({ page, perPage, q }) {
+  return http({
+    url: `/search?page=${page}&per_page=${perPage}&q=${q}`
+  })
+}
+
 // 暴露接口：
 export {
-  apiThink
+  apiThink,
+  apiGetSearchResult
 }
