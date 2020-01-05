@@ -19,8 +19,8 @@
             <span>{{ item.pubdate | timeFormat }}</span>
           </div>
           <van-grid>
-            <van-grid-item icon="comment-o" text="评论" />
-            <van-grid-item icon="like-o" text="点赞" />
+            <van-grid-item @click="comment" icon="comment-o" text="评论" />
+            <van-grid-item @click="like" icon="like-o" text="点赞" />
             <van-grid-item icon="share" text="分享" />
           </van-grid>
         </van-cell-group>
@@ -77,6 +77,25 @@ export default {
         this.finished = true
       }
       this.loading = false
+    },
+    // 评论的方法：
+    comment () {
+      let user = this.$store.state.user
+      // 判断用户是否已经登陆（根据token进行判断）
+      if (!user.token) {
+        // 未登录则跳转到登陆页面：
+        this.$router.push('/login')
+        // 并且终止后面代码的运行：
+        return
+      }
+      window.console.log('用户一登陆')
+    },
+    like () {
+      if (!this.$login()) {
+        // 如果未登陆，跳转到登陆界面，同时阻止程序继续向下运行
+        return
+      }
+      window.console.log('搜藏成功')
     }
   },
   created () {
