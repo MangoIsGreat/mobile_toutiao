@@ -57,8 +57,12 @@ export default {
           // 将用户信息保存到vuex中：
           this.$store.commit('setUser', res.data.data)
           // window.console.log(this.$store.state)
-          // 登陆成功，跳转到首页：
-          this.$router.push('/home')
+          // 登陆成功，如果首次登陆跳转到首页，如果验证登陆则跳转到上一个页面：
+          if (this.$route.path === '/checkLogin') {
+            this.$router.back()
+          } else if (this.$route.path === '/login') {
+            this.$router.push('/home')
+          }
         } catch {
           this.$toast.fail('登陆失败')
         }

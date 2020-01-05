@@ -19,6 +19,10 @@ const routes = [
     component: login
   },
   {
+    path: '/checkLogin',
+    component: login
+  },
+  {
     path: '/layout',
     component: layout,
     children: [

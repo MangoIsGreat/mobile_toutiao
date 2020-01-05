@@ -21,7 +21,7 @@
           <van-grid>
             <van-grid-item @click="comment" icon="comment-o" text="评论" />
             <van-grid-item @click="like" icon="like-o" text="点赞" />
-            <van-grid-item icon="share" text="分享" />
+            <van-grid-item @click="share" icon="share" text="分享" />
           </van-grid>
         </van-cell-group>
       </van-list>
@@ -84,18 +84,26 @@ export default {
       // 判断用户是否已经登陆（根据token进行判断）
       if (!user.token) {
         // 未登录则跳转到登陆页面：
-        this.$router.push('/login')
+        this.$router.push('/checkLogin')
         // 并且终止后面代码的运行：
         return
       }
       window.console.log('用户一登陆')
     },
     like () {
-      if (!this.$login()) {
+      if (this.$login() === false) {
         // 如果未登陆，跳转到登陆界面，同时阻止程序继续向下运行
         return
       }
       window.console.log('搜藏成功')
+    },
+    // 分享的方法：
+    share () {
+      if (this.$login() === false) {
+        // 如果未登陆，跳转到登陆界面，同时阻止程序继续向下运行
+        return
+      }
+      window.console.log('分享成功')
     }
   },
   created () {
