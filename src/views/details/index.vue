@@ -33,12 +33,24 @@
           <van-icon class="like-icon" name="delete" />&nbsp;&nbsp;&nbsp;&nbsp;不喜欢
         </van-button>
       </van-cell>
+      <!-- 评论区域： -->
+      <div>
+        <comment></comment>
+      </div>
+      <!-- 添加评论组件： -->
+      <write></write>
   </div>
 </template>
 
 <script>
+import comment from './components/comment'
+import write from './components/write'
 export default {
-  name: 'details'
+  name: 'details',
+  components: {
+    comment,
+    write
+  }
 }
 </script>
 
