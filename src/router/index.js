@@ -6,6 +6,8 @@ import layout from '../views/layout/layout.vue'
 import my from '../views/my/my.vue'
 import search from '../views/search/search.vue'
 import searchResult from '../views/searchResult/searchResult.vue'
+// 第二种导入的方式：
+const details = () => import('@/views/details/index.vue')
 
 Vue.use(VueRouter)
 
@@ -43,6 +45,10 @@ const routes = [
   {
     path: '/searchResult/:key', // 设置动态路由
     component: searchResult
+  },
+  {
+    path: '/details/:artid', // 设置动态路由
+    component: details
   }
 ]
 

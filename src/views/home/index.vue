@@ -12,7 +12,7 @@
             finished-text="没有更多了"
             @load="onLoad"
           >
-            <van-cell class="mycell" v-for="(subitem, subindex) in item.list" :key="subindex">
+            <van-cell @click="toDetails(subitem.art_id)" class="mycell" v-for="(subitem, subindex) in item.list" :key="subindex">
               <template slot="title">
                 <!-- 文章标题 -->
                 <div class="article-title">{{subitem.title}}</div>
@@ -142,6 +142,10 @@ export default {
           dataList.splice(index, 1)
         }
       })
+    },
+    // 点击文章进入文章内容页面：
+    toDetails (artid) {
+      this.$router.push(`/details/${artid}`)
     }
   },
   async created () {
