@@ -15,7 +15,28 @@ function apiLogin ({ mobile, code }) {
   })
 }
 
+// 关注作者：
+function apiFollow (autoId) {
+  http({
+    url: '/user/followings',
+    method: 'POST',
+    data: {
+      target: autoId
+    }
+  })
+}
+
+// 取关作者：
+function unFollowed (autoId) {
+  return http({
+    url: `/user/followings/${autoId}`,
+    method: 'delete'
+  })
+}
+
 // 暴露用户请求相关的方法:
 export {
-  apiLogin
+  apiLogin,
+  apiFollow,
+  unFollowed
 }

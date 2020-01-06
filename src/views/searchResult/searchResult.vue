@@ -6,7 +6,7 @@
       <!-- list列表组件： -->
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
         <!-- 单元格组： -->
-        <van-cell-group v-for="(item, index) in searchList" :key="index">
+        <van-cell-group @click="showDetails(item)" v-for="(item, index) in searchList" :key="index">
           <h4 class="searchTitle">{{ item.title }}</h4>
           <van-grid v-if="item.cover.type >= 0" :border="false" :column-num="3">
             <van-grid-item v-for="(imgItem, imgIndex) in item.cover.images" :key="imgIndex">
@@ -104,6 +104,11 @@ export default {
         return
       }
       window.console.log('分享成功')
+    },
+    // 展示文章详情：
+    showDetails (item) {
+      this.$router.push(`/details/${item.art_id}`)
+      window.console.log(item)
     }
   },
   created () {

@@ -36,9 +36,74 @@ function apiReport ({ artid, type }) {
   })
 }
 
+// 获取新闻文章详情：
+function getArticleDetails (artid) {
+  return http({
+    url: `/articles/${artid}`
+  })
+}
+
+// 点赞功能的实现：
+function apiLike (artId) {
+  return http({
+    url: '/article/likings',
+    method: 'post',
+    data: {
+      target: artId
+    }
+  })
+}
+
+// 不喜欢功能的实现：
+function apiDislikeArt (artId) {
+  return http({
+    url: '/article/dislikes',
+    method: 'post',
+    data: {
+      target: artId
+    }
+  })
+}
+
+// 取消对文章点赞：
+function apiCancelLike (artId) {
+  return http({
+    url: `/article/likings/${artId}`,
+    method: 'delete'
+  })
+}
+
+// 取消对文章不喜欢：
+function apiCancelDislike (artId) {
+  return http({
+    url: `/article/likings/${artId}`,
+    method: 'delete'
+  })
+}
+
+// 获取评论或评论回复：
+function apiGetComments ({ artId, offset }) {
+  return http({
+    url: '/comments',
+    method: 'get',
+    params: {
+      type: 'a',
+      source: artId,
+      limit: 10,
+      offset: offset
+    }
+  })
+}
+
 // 暴露接口：
 export {
   getArticlesList,
   apiDislike,
-  apiReport
+  apiReport,
+  getArticleDetails,
+  apiLike,
+  apiDislikeArt,
+  apiCancelLike,
+  apiCancelDislike,
+  apiGetComments
 }

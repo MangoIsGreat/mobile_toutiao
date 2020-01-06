@@ -39,7 +39,7 @@
         </van-pull-refresh>
       </van-tab>
       <!-- 菜单标签： -->
-      <van-icon @click="openPopup" class="menu-icon" name="wap-nav" />
+      <van-icon @click.stop="openPopup" class="menu-icon" name="wap-nav" />
       <!-- 弹出层： -->
       <!-- <mypop :channelsList="channelsList" :value="show" @input="show=$event" @click="show=$event" :active="active" @update:active="active = $event"></mypop> -->
       <!-- 代码改造后： -->

@@ -1,20 +1,20 @@
 <template>
   <van-cell>
       <template slot="title">
-          <div v-for="(item, index) in 10" :key="index" class="commentBox">
+          <div v-for="(item, index) in commList" :key="index" class="commentBox">
               <div class="comImg">
-                <img src="https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=10507900,3660235464&fm=26&gp=0.jpg" alt="">
+                <img :src="item.aut_photo" alt="">
               </div>
               <div class="comInfo">
-                  <div class="comInfo-uname">137564</div>
-                  <div class="comInfo-content">哈哈哈哈</div>
+                  <div class="comInfo-uname">{{item.aut_name}}</div>
+                  <div class="comInfo-content">{{item.content}}</div>
                   <div class="comInfo-other">
-                      <span class="comInfo-time">两周前</span>
-                      <van-button class="reply" size="mini" round type="info">回复3</van-button>
+                      <span class="comInfo-time">{{item.pubdate | timeFormat}}</span>
+                      <van-button class="reply" size="mini" round type="info">{{item.reply_count}} 回复</van-button>
                   </div>
               </div>
               <div class="comLoveIcon">
-                <van-icon name="like" />0
+                <van-icon name="like" /> {{item.like_count}}
               </div>
               </div>
       </template>
@@ -23,7 +23,7 @@
 
 <script>
 export default {
-
+  props: ['commList']
 }
 </script>
 
@@ -31,6 +31,7 @@ export default {
 .commentBox {
     display: flex;
     margin-top: 10px;
+    margin-bottom: 54px;
     .comImg {
         img {
             width: 45px;
@@ -64,5 +65,11 @@ export default {
             }
         }
     }
+}
+
+.commentBox .comInfo .comInfo-other .reply span {
+    padding: 3px 12px;
+    font-size: 12px;
+    text-align: center;
 }
 </style>
