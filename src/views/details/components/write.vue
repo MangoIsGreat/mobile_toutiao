@@ -9,13 +9,14 @@
         <van-icon name="edit" />
       </template>
       <template slot="action">
-        搜索
+        <div @click="onSearch">评论</div>
       </template>
     </van-search>
   </div>
 </template>
 
 <script>
+import { apiAddComment } from '@/api/articles'
 export default {
   data () {
     return {
@@ -23,8 +24,14 @@ export default {
     }
   },
   methods: {
-    onSearch (key) {
-      window.console.log(key)
+    async onSearch () {
+      let res = await apiAddComment({
+        artId: this.$route.params.artid,
+        commContent: this.value
+      })
+      let commData = res.data.data.new_obj
+      this.$emit('addComment', commData)
+      this.value = ''
     }
   }
 }

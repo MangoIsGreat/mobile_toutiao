@@ -95,6 +95,18 @@ function apiGetComments ({ artId, offset }) {
   })
 }
 
+// 添加评论：
+function apiAddComment ({ artId, commContent }) {
+  return http({
+    url: '/comments',
+    method: 'POST',
+    data: {
+      target: artId,
+      content: commContent
+    }
+  })
+}
+
 // 暴露接口：
 export {
   getArticlesList,
@@ -105,5 +117,6 @@ export {
   apiDislikeArt,
   apiCancelLike,
   apiCancelDislike,
-  apiGetComments
+  apiGetComments,
+  apiAddComment
 }

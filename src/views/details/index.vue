@@ -41,7 +41,7 @@
         </van-list>
       </div>
       <!-- 添加评论组件： -->
-      <write></write>
+      <write @addComment="addComment"></write>
   </div>
 </template>
 
@@ -78,7 +78,6 @@ export default {
     async getDetailArticle () {
       let res = await getArticleDetails(this.artid)
       this.articleDetails = res.data.data
-      window.console.log(res)
     },
     // 关注作者：
     async follow () {
@@ -129,14 +128,19 @@ export default {
         artId: this.artid,
         offset: this.offset
       })
-      this.commentList = [...this.commentList, ...res.data.data.results]
-      window.console.log(this.commentList)
-      this.offset = res.data.data.end_id
-      this.endid = res.data.data.last_id
-      if (this.offset === this.endid) {
-        this.finished = true
-      }
-      this.loading = false
+      // this.commentList = [...this.commentList, ...res.data.data.results]
+      // window.console.log(this.commentList)
+      // this.offset = res.data.data.end_id
+      // this.endid = res.data.data.last_id
+      // if (this.offset === this.endid) {
+      //   this.finished = true
+      // }
+      // this.loading = false
+      this.commentList = res.data.data.results
+    },
+    // 添加文章评论数据：
+    addComment (commData) {
+      this.commentList.unshift(commData)
     }
   }
 }
