@@ -10,7 +10,7 @@
                   <div class="comInfo-content">{{item.content}}</div>
                   <div class="comInfo-other">
                       <span class="comInfo-time">{{item.pubdate | timeFormat}}</span>
-                      <van-button class="reply" size="mini" round type="info">{{item.reply_count}} 回复</van-button>
+                      <van-button @click="showPop" class="reply" size="mini" round type="info">{{item.reply_count}} 回复</van-button>
                   </div>
               </div>
               <div class="comLoveIcon">
@@ -23,7 +23,13 @@
 
 <script>
 export default {
-  props: ['commList']
+  props: ['commList'],
+  methods: {
+    // 展示评论面板的方法：
+    showPop () {
+      this.$emit('showPop', true)
+    }
+  }
 }
 </script>
 

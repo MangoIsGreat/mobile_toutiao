@@ -37,24 +37,28 @@
       <!-- 评论区域： -->
       <div>
         <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <comment :commList="commentList"></comment>
+          <comment @showPop="replyShow = $event" :commList="commentList"></comment>
         </van-list>
       </div>
       <!-- 添加评论组件： -->
       <write @addComment="addComment"></write>
+      <!-- 添加回复组件： -->
+      <reply v-model="replyShow" />
   </div>
 </template>
 
 <script>
 import comment from './components/comment'
 import write from './components/write'
+import reply from './components/reply'
 import { getArticleDetails, apiLike, apiCancelLike, apiDislikeArt, apiCancelDislike, apiGetComments } from '@/api/articles'
 import { apiFollow, unFollowed } from '@/api/user'
 export default {
   name: 'details',
   components: {
     comment,
-    write
+    write,
+    reply
   },
   data () {
     return {
@@ -67,7 +71,9 @@ export default {
       offset: null,
       // 评论数据：
       commentList: {},
-      endid: 0
+      endid: 0,
+      // 评论组件中的数据：
+      replyShow: false
     }
   },
   created () {
