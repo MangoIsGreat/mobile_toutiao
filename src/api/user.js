@@ -42,10 +42,18 @@ function apiGetInfo () {
   })
 }
 
+// 获取用户个人资料：
+function apiGetSelf () {
+  return http({
+    url: '/user/profile'
+  })
+}
+
 // 暴露用户请求相关的方法:
 export {
   apiLogin,
   apiFollow,
   unFollowed,
-  apiGetInfo
+  apiGetInfo,
+  apiGetSelf
 }

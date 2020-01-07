@@ -5,7 +5,7 @@
       <div v-if="isLogin" class="myInfo">
         <div class="userInfo">
           <div class="uImg">
-            <img :src="userInfo.photo" alt="">
+            <img @click="$router.push('/personalInfo')" :src="userInfo.photo" alt="">
           </div>
           <div class="uName">{{ userInfo.name }}</div>
           <div class="today">
@@ -72,7 +72,6 @@ export default {
     if (user.token) {
       this.isLogin = true
       let res = await apiGetInfo()
-      window.console.log(res)
       this.userInfo = res.data.data
     } else {
       this.isLogin = false
