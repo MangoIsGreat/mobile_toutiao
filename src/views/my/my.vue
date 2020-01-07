@@ -29,7 +29,7 @@
         </div>
       </div>
       <div v-else class="noLogin">
-        <div class="userImg">
+        <div @click="$router.push('/checkLogin')" class="userImg">
           <van-icon class="noLogin-user" name="user-o" />
         </div>
         <div class="today">
@@ -60,7 +60,16 @@ export default {
   name: 'my',
   data () {
     return {
-      isLogin: false
+      isLogin: true
+    }
+  },
+  created () {
+    // 判断用户是否登陆：
+    let user = this.$store.state.user
+    if (user.token) {
+      this.isLogin = true
+    } else {
+      this.isLogin = false
     }
   }
 }
