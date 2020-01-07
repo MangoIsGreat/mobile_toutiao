@@ -1,20 +1,20 @@
 <template>
   <van-cell>
       <template slot="title">
-          <div v-for="(item, index) in commList" :key="index" class="commentBox">
+          <div class="commentBox">
               <div class="comImg">
-                <img :src="item.aut_photo" alt="">
+                <img :src="data.aut_photo" alt="">
               </div>
               <div class="comInfo">
-                  <div class="comInfo-uname">{{item.aut_name}}</div>
-                  <div class="comInfo-content">{{item.content}}</div>
+                  <div class="comInfo-uname">{{data.aut_name}}</div>
+                  <div class="comInfo-content">{{data.content}}</div>
                   <div class="comInfo-other">
-                      <span class="comInfo-time">{{item.pubdate | timeFormat}}</span>
-                      <van-button @click="showPop" class="reply" size="mini" round type="info">{{item.reply_count}} 回复</van-button>
+                      <span class="comInfo-time">{{data.pubdate | timeFormat}}</span>
+                      <van-button @click="showPop" class="reply" size="mini" round type="info">{{data.reply_count}} 回复</van-button>
                   </div>
               </div>
               <div class="comLoveIcon">
-                <van-icon name="like" /> {{item.like_count}}
+                <van-icon name="like" /> {{data.like_count}}
               </div>
               </div>
       </template>
@@ -22,12 +22,14 @@
 </template>
 
 <script>
+import bus from '@/utils/bus.js'
 export default {
-  props: ['commList'],
+  props: ['data'],
   methods: {
     // 展示评论面板的方法：
     showPop () {
       this.$emit('showPop', true)
+      bus.$emit('showComment', this.data)
     }
   }
 }

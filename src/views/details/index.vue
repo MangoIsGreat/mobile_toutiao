@@ -35,11 +35,11 @@
         </van-button>
       </van-cell>
       <!-- 评论区域： -->
-      <div>
-        <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <comment @showPop="replyShow = $event" :commList="commentList"></comment>
-        </van-list>
-      </div>
+      <van-cell title="文章评论："></van-cell>
+      <!-- 评论结构 -->
+      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+          <comment @showPop="replyShow = $event" :data="item" v-for="(item, index) in commentList" :key="index"></comment>
+      </van-list>
       <!-- 添加评论组件： -->
       <write @addComment="addComment"></write>
       <!-- 添加回复组件： -->
@@ -70,7 +70,7 @@ export default {
       finished: false,
       offset: null,
       // 评论数据：
-      commentList: {},
+      commentList: [],
       endid: 0,
       // 评论组件中的数据：
       replyShow: false
@@ -134,15 +134,15 @@ export default {
         artId: this.artid,
         offset: this.offset
       })
-      // this.commentList = [...this.commentList, ...res.data.data.results]
-      // window.console.log(this.commentList)
-      // this.offset = res.data.data.end_id
-      // this.endid = res.data.data.last_id
-      // if (this.offset === this.endid) {
-      //   this.finished = true
-      // }
-      // this.loading = false
-      this.commentList = res.data.data.results
+      // 保存数据源
+      this.commentList = [...this.commentList, ...res.data.data.results]
+      this.offset = res.data.data.last_id
+      this.endid = res.data.data.end_id
+      // 判断数据是否加载完毕：
+      if (this.offset === this.endid) {
+        this.finished = true
+      }
+      this.loading = false
     },
     // 添加文章评论数据：
     addComment (commData) {
@@ -159,6 +159,7 @@ body {
 
 .detailsBox {
   padding-top: 46px;
+  margin-bottom: 54px;
 
   .van-nav-bar .van-icon {
     color: #fff;
