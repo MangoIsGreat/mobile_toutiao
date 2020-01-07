@@ -1,29 +1,40 @@
 <template>
   <div class="user">
     <!-- 用户个人信息区域: -->
-    <div class="myInfo">
-      <div class="userInfo">
-        <div class="uImg">
-          <img src="https://f10.baidu.com/it/u=1900326330,1437211603&fm=72" alt="">
+    <div>
+      <div v-if="isLogin" class="myInfo">
+        <div class="userInfo">
+          <div class="uImg">
+            <img src="https://f10.baidu.com/it/u=1900326330,1437211603&fm=72" alt="">
+          </div>
+          <div class="uName">朱义龙</div>
+          <div class="today">
+            <div>今日阅读</div>
+            <div>1分钟</div>
+          </div>
         </div>
-        <div class="uName">朱义龙</div>
+        <div class="activity">
+          <div>
+            <div>620000</div>
+            <div>动态</div>
+          </div>
+          <div>
+            <div>25</div>
+            <div>关注</div>
+          </div>
+          <div>
+            <div>169</div>
+            <div>粉丝</div>
+          </div>
+        </div>
+      </div>
+      <div v-else class="noLogin">
+        <div class="userImg">
+          <van-icon class="noLogin-user" name="user-o" />
+        </div>
         <div class="today">
           <div>今日阅读</div>
           <div>1分钟</div>
-        </div>
-      </div>
-      <div class="activity">
-        <div>
-          <div>620000</div>
-          <div>动态</div>
-        </div>
-        <div>
-          <div>25</div>
-          <div>关注</div>
-        </div>
-        <div>
-          <div>169</div>
-          <div>粉丝</div>
         </div>
       </div>
     </div>
@@ -46,7 +57,12 @@
 
 <script>
 export default {
-
+  name: 'my',
+  data () {
+    return {
+      isLogin: false
+    }
+  }
 }
 </script>
 
@@ -96,6 +112,39 @@ export default {
         color: #fff;
       }
     }
+  }
+
+  .noLogin {
+    height: 186px;
+    background-color: rgb(61, 155, 246);
+    overflow: hidden;
+    .userImg {
+      width: 60px;
+      height: 60px;
+      background-color: #fff;
+      border-radius: 50%;
+      margin: 30px auto;
+      display: flex;
+      justify-content: center;
+      .noLogin-user {
+        line-height: 60px;
+        font-size: 30px;
+      }
+    }
+    .today {
+        position: absolute;
+        right: 0px;
+        top: 30px;
+        background-color: rgba(0, 0, 0, .4);
+        border-radius: 50px 0 0 50px;
+        padding: 5px 14px;
+        text-align: center;
+        div {
+          color: #fff;
+          font-size: 12px;
+          line-height: 18px;
+        }
+      }
   }
 
   .collect {
