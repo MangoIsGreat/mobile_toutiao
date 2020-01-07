@@ -4,8 +4,8 @@
       <comment :data="currentData"></comment>
       <van-cell title="书写评论列表："></van-cell>
       <!-- 评论列表组件： -->
-      <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <comment :data="currentData"></comment>
+      <van-list class="comm-reply" v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
+        <comment v-for="(item, index) in commReplyList" :key="index" :data="item"></comment>
       </van-list>
       <!-- 添加评论组件： -->
       <write />
@@ -17,6 +17,7 @@
 import comment from './comment'
 import write from './write'
 import bus from '@/utils/bus.js'
+import { apiCommentReply } from '@/api/articles.js'
 export default {
   props: ['value'],
   components: {
@@ -29,13 +30,27 @@ export default {
       currentData: {},
       // 评论列表组件数据：
       loading: false,
-      finished: false
+      finished: false,
+      // 文章评论回复的数据：
+      offset: null,
+      endId: 0,
+      commReplyList: []
     }
   },
   methods: {
     // 评论列表加载事件：
-    onLoad () {
-      window.console.log('loading')
+    async onLoad () {
+      let res = await apiCommentReply({
+        commId: this.currentData.com_id.toString(),
+        offset: this.offset
+      })
+      this.offset = res.data.data.last_id
+      this.endId = res.data.data.end_id
+      this.commReplyList = res.data.data.results
+      if (this.offset === this.endId) {
+        this.finished = true
+      }
+      this.loading = false
     }
   },
   created () {
@@ -48,5 +63,7 @@ export default {
 </script>
 
 <style>
-
+.comm-reply {
+  margin-bottom: 54px;
+}
 </style>
