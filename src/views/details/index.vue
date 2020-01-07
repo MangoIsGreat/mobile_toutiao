@@ -38,7 +38,7 @@
       <van-cell title="文章评论："></van-cell>
       <!-- 评论结构 -->
       <van-list v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-          <comment @showPop="replyShow = $event" :data="item" v-for="(item, index) in commentList" :key="index"></comment>
+          <comment :replyShow="true" @showPop="replyShow = $event" :data="item" v-for="(item, index) in commentList" :key="index"></comment>
       </van-list>
       <!-- 添加评论组件： -->
       <write @addComment="addComment"></write>

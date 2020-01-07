@@ -10,7 +10,7 @@
                   <div class="comInfo-content">{{data.content}}</div>
                   <div class="comInfo-other">
                       <span class="comInfo-time">{{data.pubdate | timeFormat}}</span>
-                      <van-button @click="showPop" class="reply" size="mini" round type="info">{{data.reply_count}} 回复</van-button>
+                      <van-button v-if="replyShow" @click="showPop" class="reply" size="mini" round type="info">{{data.reply_count}} 回复</van-button>
                   </div>
               </div>
               <div class="comLoveIcon">
@@ -24,7 +24,7 @@
 <script>
 import bus from '@/utils/bus.js'
 export default {
-  props: ['data'],
+  props: ['data', 'replyShow'],
   methods: {
     // 展示评论面板的方法：
     showPop () {

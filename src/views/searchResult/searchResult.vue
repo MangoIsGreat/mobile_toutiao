@@ -108,7 +108,6 @@ export default {
     // 展示文章详情：
     showDetails (item) {
       this.$router.push(`/details/${item.art_id}`)
-      window.console.log(item)
     }
   },
   created () {

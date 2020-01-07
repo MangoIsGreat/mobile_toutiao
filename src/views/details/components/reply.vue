@@ -1,11 +1,11 @@
 <template>
   <div>
     <van-popup :value="value" @input="$emit('input', $event)" position="bottom" :style="{ height: '80%' }">
-      <comment :data="currentData"></comment>
+      <comment :replyShow="false" :data="currentData"></comment>
       <van-cell title="书写评论列表："></van-cell>
       <!-- 评论列表组件： -->
       <van-list class="comm-reply" v-model="loading" :finished="finished" finished-text="没有更多了" @load="onLoad">
-        <comment v-for="(item, index) in commReplyList" :key="index" :data="item"></comment>
+        <comment :replyShow="false" v-for="(item, index) in commReplyList" :key="index" :data="item"></comment>
       </van-list>
       <!-- 添加评论组件： -->
       <write />
@@ -40,6 +40,7 @@ export default {
   methods: {
     // 评论列表加载事件：
     async onLoad () {
+      // 发送获取评论回复列表的请求：
       let res = await apiCommentReply({
         commId: this.currentData.com_id.toString(),
         offset: this.offset
@@ -57,6 +58,12 @@ export default {
     // 接受eventBus中传递过来的评论数据：
     bus.$on('showComment', value => {
       this.currentData = value
+      // 解决bug1：回复页面组件中数据共享的问题：
+      this.loading = false
+      this.finished = false
+      this.offset = null
+      this.endId = 0
+      this.commReplyList = []
     })
   }
 }
