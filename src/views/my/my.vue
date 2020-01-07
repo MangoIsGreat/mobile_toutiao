@@ -5,9 +5,9 @@
       <div v-if="isLogin" class="myInfo">
         <div class="userInfo">
           <div class="uImg">
-            <img src="https://f10.baidu.com/it/u=1900326330,1437211603&fm=72" alt="">
+            <img :src="userInfo.photo" alt="">
           </div>
-          <div class="uName">朱义龙</div>
+          <div class="uName">{{ userInfo.name }}</div>
           <div class="today">
             <div>今日阅读</div>
             <div>1分钟</div>
@@ -15,15 +15,15 @@
         </div>
         <div class="activity">
           <div>
-            <div>620000</div>
+            <div>{{ userInfo.art_count }}</div>
             <div>动态</div>
           </div>
           <div>
-            <div>25</div>
+            <div>{{ userInfo.follow_count }}</div>
             <div>关注</div>
           </div>
           <div>
-            <div>169</div>
+            <div>{{ userInfo.fans_count }}</div>
             <div>粉丝</div>
           </div>
         </div>
@@ -56,18 +56,24 @@
 </template>
 
 <script>
+import { apiGetInfo } from '@/api/user.js'
 export default {
   name: 'my',
   data () {
     return {
-      isLogin: true
+      isLogin: true,
+      // 用户信息：
+      userInfo: {}
     }
   },
-  created () {
+  async created () {
     // 判断用户是否登陆：
     let user = this.$store.state.user
     if (user.token) {
       this.isLogin = true
+      let res = await apiGetInfo()
+      window.console.log(res)
+      this.userInfo = res.data.data
     } else {
       this.isLogin = false
     }

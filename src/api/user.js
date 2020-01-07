@@ -34,9 +34,18 @@ function unFollowed (autoId) {
   })
 }
 
+// 获取用户自己的信息：
+function apiGetInfo () {
+  return http({
+    url: '/user',
+    method: 'get'
+  })
+}
+
 // 暴露用户请求相关的方法:
 export {
   apiLogin,
   apiFollow,
-  unFollowed
+  unFollowed,
+  apiGetInfo
 }
