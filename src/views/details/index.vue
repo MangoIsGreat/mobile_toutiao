@@ -41,7 +41,7 @@
           <comment :replyShow="true" @showPop="replyShow = $event" :data="item" v-for="(item, index) in commentList" :key="index"></comment>
       </van-list>
       <!-- 添加评论组件： -->
-      <write @addComment="addComment"></write>
+      <write :isReply="false" @addComment="addComment"></write>
       <!-- 添加回复组件： -->
       <reply v-model="replyShow" />
   </div>

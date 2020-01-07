@@ -8,7 +8,7 @@
         <comment :replyShow="false" v-for="(item, index) in commReplyList" :key="index" :data="item"></comment>
       </van-list>
       <!-- 添加评论组件： -->
-      <write />
+      <write :commId="currentData.com_id" @addReply="addReply" :isReply="true" />
     </van-popup>
   </div>
 </template>
@@ -52,6 +52,12 @@ export default {
         this.finished = true
       }
       this.loading = false
+    },
+    // 添加文章评论的回复数据：
+    addReply (obj) {
+      this.commReplyList.unshift(obj)
+      // 让评论回复数实时递增：
+      this.currentData.reply_count += 1
     }
   },
   created () {

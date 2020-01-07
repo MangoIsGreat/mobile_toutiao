@@ -121,6 +121,19 @@ function apiCommentReply ({ commId, offset }) {
   })
 }
 
+// 添加文章评论的回复：
+function apiAddCommReplay ({ commId, content, artId }) {
+  return http({
+    url: '/comments',
+    method: 'POST',
+    data: {
+      target: commId,
+      content: content,
+      art_id: artId
+    }
+  })
+}
+
 // 暴露接口：
 export {
   getArticlesList,
@@ -133,5 +146,6 @@ export {
   apiCancelDislike,
   apiGetComments,
   apiAddComment,
-  apiCommentReply
+  apiCommentReply,
+  apiAddCommReplay
 }

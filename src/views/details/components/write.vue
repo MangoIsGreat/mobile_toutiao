@@ -16,8 +16,9 @@
 </template>
 
 <script>
-import { apiAddComment } from '@/api/articles'
+import { apiAddComment, apiAddCommReplay } from '@/api/articles'
 export default {
+  props: ['isReply', 'commId'],
   data () {
     return {
       value: ''
@@ -25,13 +26,29 @@ export default {
   },
   methods: {
     async onSearch () {
-      let res = await apiAddComment({
-        artId: this.$route.params.artid,
-        commContent: this.value
-      })
-      let commData = res.data.data.new_obj
-      this.$emit('addComment', commData)
-      this.value = ''
+      // 给文章添加评论时：
+      if (this.isReply === false) {
+        let res = await apiAddComment({
+          artId: this.$route.params.artid,
+          commContent: this.value
+        })
+        let commData = res.data.data.new_obj
+        this.$emit('addComment', commData)
+        this.value = ''
+      } else {
+        // 给评论添加回复时：
+        let res = await apiAddCommReplay({
+          commId: this.commId.toString(),
+          content: this.value,
+          artId: this.$route.params.artid
+        })
+        // 保存添加的评论回复信息：
+        let addReplyValue = res.data.data.new_obj
+        // 将保存的信息传递给reply组件：
+        this.$emit('addReply', addReplyValue)
+        // 清空输入框：
+        this.value = ''
+      }
     }
   }
 }
