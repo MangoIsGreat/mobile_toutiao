@@ -50,7 +50,7 @@
     <div class="message">
       <van-cell title="消息通知" is-link />
       <van-cell title="用户反馈" is-link />
-      <van-cell title="小智同学" is-link />
+      <van-cell @click="$router.push('/xiaozhi')" title="小智同学" is-link />
     </div>
   </div>
 </template>

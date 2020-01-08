@@ -56,6 +56,11 @@ const routes = [
   {
     path: '/personalInfo',
     component: personalInfo
+  },
+  // 给小智同学添加路由：
+  {
+    path: '/xiaozhi',
+    component: () => import('@/views/xiaozhi/xiaozhi.vue')
   }
 ]
 
