@@ -7,29 +7,38 @@
             <img class="userInfo-photo" :src="userInfo.photo" alt="">
           </template>
       </van-cell>
-      <van-cell title="昵称" is-link :value="userInfo.name" />
+      <van-cell @click="showPop = true" title="昵称" is-link :value="userInfo.name" />
       <van-cell title="介绍" is-link :value="user.intro" />
     </van-cell-group>
     <van-cell-group class="userInfo-personal">
       <van-cell title="性别" is-link :value="userInfo.gender?'男':'女'" />
       <van-cell title="生日" is-link :value="userInfo.birthday" />
     </van-cell-group>
+    <van-popup v-model="showPop" position="bottom" :style="{ height: '8%' }">
+      <van-field required v-model="userInfo.name" />
+    </van-popup>
   </div>
 </template>
 
 <script>
-import { apiGetSelf, apiGetInfo } from '@/api/user.js'
+import { apiGetSelf, apiGetInfo, apiEditUserInfo } from '@/api/user.js'
 export default {
   name: 'personalInfo',
   data () {
     return {
       userInfo: {},
-      user: {}
+      user: {},
+      showPop: false
     }
   },
   methods: {
-    save () {
-      window.console.log('save')
+    async save () {
+      await apiEditUserInfo({
+        name: this.userInfo.name,
+        gender: this.userInfo.gender,
+        intro: this.user.intro,
+        birthday: this.userInfo.birthday
+      })
     }
   },
   async created () {

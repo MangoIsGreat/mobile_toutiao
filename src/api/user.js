@@ -49,11 +49,26 @@ function apiGetSelf () {
   })
 }
 
+// 编辑用户个人资料：
+function apiEditUserInfo ({ name, gender, intro, birthday }) {
+  http({
+    url: '/user/profile',
+    method: 'PATCH',
+    data: {
+      name: name,
+      gender: gender,
+      intro: intro,
+      birthday: birthday
+    }
+  })
+}
+
 // 暴露用户请求相关的方法:
 export {
   apiLogin,
   apiFollow,
   unFollowed,
   apiGetInfo,
-  apiGetSelf
+  apiGetSelf,
+  apiEditUserInfo
 }
