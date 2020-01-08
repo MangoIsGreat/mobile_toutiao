@@ -63,6 +63,18 @@ function apiEditUserInfo ({ name, gender, intro, birthday }) {
   })
 }
 
+// 获取用户头像：
+function apiUpdateUserImg (photo) {
+  // axios不能上传文件对象，所以要使用formdata对象上传：
+  let fd = new FormData()
+  fd.append('photo', photo)
+  return http({
+    url: '/user/photo',
+    method: 'PATCH',
+    data: fd
+  })
+}
+
 // 暴露用户请求相关的方法:
 export {
   apiLogin,
@@ -70,5 +82,6 @@ export {
   unFollowed,
   apiGetInfo,
   apiGetSelf,
-  apiEditUserInfo
+  apiEditUserInfo,
+  apiUpdateUserImg
 }
