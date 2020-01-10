@@ -6,19 +6,9 @@
       <div class="content">
           <div class="chatBox">
               <!-- 聊天机器人 -->
-              <div class="chat robot">
+              <div v-for="(item, index) in messageList" :key="index" class="chat" :class="{person: item.isrobot === false}">
                   <img src="https://img.yzcdn.cn/vant/logo.png" alt="">
-                  <div>你好呀</div>
-              </div>
-              <!-- 用户 -->
-              <div class="chat person">
-                  <img src="https://dss0.baidu.com/6ONWsjip0QIZ8tyhnq/it/u=2247692397,1189743173&fm=5" alt="">
-                  <div>你好呀</div>
-              </div>
-              <!-- 聊天机器人 -->
-              <div class="chat robot">
-                  <img src="https://img.yzcdn.cn/vant/logo.png" alt="">
-                  <div>好o</div>
+                  <div>{{item.msg}}</div>
               </div>
           </div>
       </div>
@@ -40,17 +30,44 @@
 </template>
 
 <script>
+import io from 'socket.io-client'
 export default {
   name: 'xiaozhi',
   data () {
     return {
-      value: ''
+      value: '',
+      messageList: [
+        { isrobot: true, msg: '你好呀！' }
+      ],
+      //   创建全局websocket对象：
+      socket: null
     }
   },
   methods: {
     onSearch () {
-      window.console.log('发送')
+      this.messageList.push({
+        isrobot: false,
+        msg: this.value
+      })
+      //   发送消息到服务端：
+      //   "message"为绑定的事件：
+      this.socket.emit('message', {
+        msg: this.value,
+        timestamp: Date.now()
+      })
+      this.value = ''
     }
+  },
+  created () {
+    // 创建socket实例：
+    this.socket = io('http://ttapi.research.itcast.cn')
+    // 接受数据：
+    this.socket.on('message', obj => {
+      this.messageList.push({
+        isrobot: true,
+        msg: obj.msg
+      })
+    })
   }
 }
 </script>
@@ -67,6 +84,7 @@ export default {
         top: 46px;
         bottom: 54px;
         width: 100%;
+        overflow: auto;
         .chatBox {
             .chat {
                 display: flex;
@@ -75,6 +93,9 @@ export default {
                 margin-top: 14px;
                 img {
                     padding: 0 10px;
+                    height: 40px;
+                    width: 40px;
+                    border-radius: 50%;
                 }
                 div {
                     background-color: rgb(223, 239, 250);
@@ -82,20 +103,8 @@ export default {
                     border-radius: 5px;
                 }
             }
-            .robot {
-                img {
-                    height: 40px;
-                    width: 40px;
-                    border-radius: 50%;
-                }
-            }
             .person {
                 flex-direction: row-reverse;
-                img {
-                    height: 40px;
-                    width: 40px;
-                    border-radius: 50%;
-                }
             }
         }
     }
